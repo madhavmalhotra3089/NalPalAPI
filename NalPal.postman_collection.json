@@ -1,0 +1,109 @@
+{
+	"info": {
+		"name": "NalPal",
+		"_postman_id": "969e27c8-0b0e-ca47-2692-2b01d362e9c6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "registerUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userName\":\"test3\",\n\t\"email\":\"madhavmalhsotr3@uvic.ca\",\n\t\"mobile\":\"77892256s33\",\n\t\"password\":\"Context@30\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/userservice/registerUser",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"userservice",
+						"registerUser"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "updateUserInformation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"5ae270831787b43350fa923a\",\n\t\"userName\":\"testChanged\",\n\t\"email\":\"madhavmalhotr3@uvic.ca\",\n\t\"mobile\":\"7789225633\",\n\t\"password\":\"Context@301\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/userservice/updateUserInformation",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"userservice",
+						"updateUserInformation"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userName\":\"testChanged\",\n\t\"password\":\"Context@301\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/userservice/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"userservice",
+						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
