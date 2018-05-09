@@ -5,10 +5,14 @@ const express = require('express');
 const bodyParser=require('body-parser');
 const dbConfig=require('./config/database.config');
 const mongoose=require('mongoose');
+const cors=require('cors');
+
+
 
 let app=express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 mongoose.Promise=global.Promise;
 
