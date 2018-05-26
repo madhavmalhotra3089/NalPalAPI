@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"userName\":\"test3\",\n\t\"email\":\"madhavmalhsotr3@uvic.ca\",\n\t\"mobile\":\"77892256s33\",\n\t\"password\":\"Context@30\"\n}"
+					"raw": "{\n\t\"username\":\"test6\",\n\t\"email\":\"madhavmalhsotr3@uvic.ca\",\n\t\"mobile\":\"77892256s33\",\n\t\"password\":\"Context@30\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:3000/userservice/registerUser",
@@ -51,7 +51,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id\": \"5ae270831787b43350fa923a\",\n\t\"userName\":\"testChanged\",\n\t\"email\":\"madhavmalhotr3@uvic.ca\",\n\t\"mobile\":\"7789225633\",\n\t\"password\":\"Context@301\"\n}"
+					"raw": "{\n\t\"id\": \"f3816a313b81842d8fc4c5235e648750\",\n\t\"userName\":\"testChanged\",\n\t\"email\":\"madhavmalhotr3@uvic.ca\",\n\t\"mobile\":\"7789225633\",\n\t\"password\":\"Context@301\",\n\t\"rev\": \"1-2b0e8400d6e21e17a75efc149c89e63f\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:3000/userservice/updateUserInformation",
@@ -99,6 +99,124 @@
 					"path": [
 						"userservice",
 						"login"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "sendFriendRequest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"test703\",\n\t\"email\":\"madhavmalhsotr3@uvic.ca\",\n\t\"mobile\":\"7789225603\",\n\t\"id\":\"1b6ad9819db8375ceb04e2f67f94013a\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/friendservice/addfriend",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"friendservice",
+						"addfriend"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "verifyFriend",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"requestorID\": \"1b6ad9819db8375ceb04e2f67f94013a\",\n\t\"responderID\": \"ab9363d95f6dd6850fcfbd9af61fb7b1\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/friendservice/verifyFriend",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"friendservice",
+						"verifyFriend"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "listFriends",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://127.0.0.1:3000/friendservice/listFriends/8308a4c0315cbf6c25568be241d4afc5",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"friendservice",
+						"listFriends",
+						"8308a4c0315cbf6c25568be241d4afc5"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "listPendingRequests",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://127.0.0.1:3000/friendservice/listPendingRequests/ab9363d95f6dd6850fcfbd9af6609873",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"friendservice",
+						"listPendingRequests",
+						"ab9363d95f6dd6850fcfbd9af6609873"
 					]
 				},
 				"description": ""

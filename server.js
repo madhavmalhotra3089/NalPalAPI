@@ -3,8 +3,6 @@
 
 const express = require('express');
 const bodyParser=require('body-parser');
-const dbConfig=require('./config/database.config');
-const mongoose=require('mongoose');
 const cors=require('cors');
 
 
@@ -14,18 +12,10 @@ let app=express();
 app.use(bodyParser.json());
 app.use(cors());
 
-mongoose.Promise=global.Promise;
-
-mongoose.connect(dbConfig.url).then(()=>
-{
-    console.log("Successfully connected to the database");
-}).catch((err)=>{
-    console.log("Could not connect to the database");
-    console.log(err);
-});
-
 
 require('./app/routes/user.routes.js')(app);
+
+require('./app/routes/friend.routes.js')(app);
 
 app.get('/', (req, res) => {
     
