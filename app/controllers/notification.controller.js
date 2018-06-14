@@ -250,12 +250,9 @@
             }
 
             if (result.docs.length == 0) {
-                return res.status(500).send({
-                    status: "Error",
-                    message: "No emergency for this Id"
-                });
+                console.log("No emergency responses yet for this emergency");
             }
-            else{
+            else{   
                 responders=[];
 
                 for (i = 0; i < result.docs.length; i++) {
@@ -281,7 +278,15 @@
                             status: "Message sending failed"
                         });
     
-                        emergency_db=cloudant.db.use('emergency');
+                        
+    
+                    });
+    
+                }
+    
+
+            };
+            emergency_db=cloudant.db.use('emergency');
                         
                         emergency_db.find({
                             selector: {
@@ -327,14 +332,6 @@
                 
                 
                         });
-    
-                    });
-    
-                }
-    
-
-            };
-
 
         });
 
