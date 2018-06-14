@@ -7,6 +7,7 @@ const cors=require('cors');
 
 
 
+
 let app=express();
 
 app.use(bodyParser.json());
@@ -16,6 +17,8 @@ app.use(cors());
 require('./app/routes/user.routes.js')(app);
 
 require('./app/routes/friend.routes.js')(app);
+
+require('./app/routes/notification.routes.js')(app);
 
 app.get('/', (req, res) => {
     

@@ -1,0 +1,3 @@
+module.exports = {
+    secret: 'T?d?,vyK?b?%???z'
+};
