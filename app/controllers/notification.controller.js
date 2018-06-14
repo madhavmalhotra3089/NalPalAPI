@@ -4,6 +4,7 @@
     var PushNotifications = require('ibm-push-notifications').PushNotifications;
     var Notification = require('ibm-push-notifications').Notification;
     var PushMessageBuilder = require('ibm-push-notifications').PushMessageBuilder;
+    
 
     var myPushNotifications = new PushNotifications(PushNotifications.Region.US_SOUTH, "081691fb-4ead-4f3d-b570-e64fd9e57d1b", "ff382ab8-0c20-42aa-a70a-f79ebd851947");
 

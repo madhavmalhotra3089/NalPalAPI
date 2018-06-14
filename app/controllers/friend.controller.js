@@ -338,3 +338,64 @@
 
 
     };
+
+
+    exports.rejectFriend=(req,res)=>
+    {
+        var token = req.headers['x-access-token'];
+        if (!token) return res.status(401).send({
+            auth: false,
+            message: 'No authentication token provided.'
+        });
+    
+
+        jwt.verify(token, config.secret, function (err, decoded) {
+            if (err) return res.status(401).send({
+                auth: false,
+                message: 'Failed to authenticate token.'
+            });
+        });
+        
+        friend_requests_db = cloudant.db.use('friendrequests');
+
+        friend_requests_db.find({
+            selector: {
+                requestorID: req.body.requestorID,
+                responderID: req.body.responderID
+            }
+        }, function (er, result) {
+
+            if (er) {
+                return res.status(500).send({
+                    status: "Error occurred in the operation",
+                    message: err
+                });
+            }
+
+            friend_requests_db.insert({
+                    _id: result.docs[0]._id,
+                    isAccepted: false,
+                    requestorID: req.body.requestorID,
+                    responderID: req.body.responderID,
+                    _rev: result.docs[0]._rev,
+                    nickname: result.docs[0].nickname
+                },
+                function (err, data) {
+                    if (err) {
+                        return res.status(500).send({
+                            status: "Error occurred while confirming a friend request",
+                            message: err
+                        });
+                    } 
+                });
+
+
+
+        });
+
+
+
+
+
+
+    }
