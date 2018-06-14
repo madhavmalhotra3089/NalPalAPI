@@ -105,9 +105,33 @@
                     if (error) res.status(500).send({
                         status: "Message sending failed"
                     });
-                    return res.status(response.statusCode).send({
-                        message: response.body.message || "Emergency sent successfully"
+
+                    emergency_db = cloudant.db.use('emergency');
+                    emergency={}
+                    emergency.intiatorID=req.body.id;
+                    emergency.isActive=true;
+
+                    
+                    emergency_db.insert(emergency,
+                    function (err, data) {
+                        if (err) {
+                            return res.status(500).send({
+                                status: "Error occurred sending emergency information",
+                                message: err
+                            });
+                        } else {
+                            return res.status(response.statusCode).send({
+                                message: response.body.message || "Emergency sent successfully",
+                                emergencyID:data.id
+
+                            });
+
+                        }
                     });
+
+
+
+                    
 
                 });
 
@@ -128,11 +152,11 @@
         messageObj.body = req.body.message;
         messageObj.duration=req.body.duration;
 
-        user = req.body.intiatorID;
+        user = [req.body.intiatorID];
 
         var message = PushMessageBuilder.Message.alert(JSON.stringify(messageObj)).build();
 
-        var target = PushMessageBuilder.Target.userIds(users).build();
+        var target = PushMessageBuilder.Target.userIds(user).build();
 
         var notificationMessage = Notification.message(message)
             .target(target).build();
@@ -142,12 +166,175 @@
             if (error) res.status(500).send({
                 status: "Message sending failed"
             });
-            return res.status(response.statusCode).send({
-                message: response.body.message || "Message sent successfully"
+
+            
+
+
+
+            emergency_db = cloudant.db.use('emergency');
+            emergency_response_db=cloudant.db.use('emergencyresponses');
+
+            emergency_db.find({
+                selector: {
+                    intiatorID: req.body.intiatorID,
+                    isActive:true
+                }
+            }, function (er, result) {
+
+                if (er) {
+                    return res.status(500).send({
+                        status: "Error occurred in the operation",
+                        message: err
+                    });
+                }
+                if (result.docs.length == 0) {
+                    return res.status(500).send({
+                        status: "Error",
+                        message: "No Active emergency in progress"
+                    });
+                }
+                else{
+                    emergency_response={}
+                    emergency_response.responderID=req.body.id;
+                    emergency_response.emergencyID=result.docs[0]._id;
+
+                    emergency_response_db.insert(emergency_response,
+                        function (err, data) {
+                            if (err) {
+                                return res.status(500).send({
+                                    status: "Error occurred updating emergency information",
+                                    message: err
+                                });
+                            } else {
+                                return res.status(response.statusCode).send({
+                                    message: response.body.message || "Responded to emergency successfully"
+    
+                                });
+                                
+                            }
+                        });
+
+                }
+
+
+
             });
+
+
+          
 
         });
 
 
 
     };
+
+
+    exports.cancelEmergency=(req,res)=>{
+
+
+        emergency_response_db=cloudant.db.use('emergencyresponses');
+
+
+        emergency_response_db.find({
+            selector: {
+                emergencyID: req.body.emergencyID,
+            }
+        }, function (er, result) {
+            if (er) {
+                return res.status(500).send({
+                    status: "Error occurred in the operation",
+                    message: err
+                });
+            }
+
+            if (result.docs.length == 0) {
+                return res.status(500).send({
+                    status: "Error",
+                    message: "No emergency for this Id"
+                });
+            }
+            else{
+                responders=[];
+
+                for (i = 0; i < result.docs.length; i++) {
+                    let friendID = result.docs[i].responderID;
+                    
+                    responders.push(friendID);
+    
+                    messageObj = {};
+                    messageObj.type = "notification";
+                    messageObj.priority = "cancelemergency";
+    
+    
+                    var message = PushMessageBuilder.Message.alert(JSON.stringify(messageObj)).build();
+    
+                    var target = PushMessageBuilder.Target.userIds(responders).build();
+    
+                    var notificationMessage = Notification.message(message)
+                        .target(target).build();
+    
+                    myPushNotifications.send(notificationMessage, function (error, response, body) {
+    
+                        if (error) res.status(500).send({
+                            status: "Message sending failed"
+                        });
+    
+                        emergency_db=cloudant.db.use('emergency');
+                        
+                        emergency_db.find({
+                            selector: {
+                                _id: req.body.emergencyID,
+                                isActive:true
+                            }
+                        }, function (er, result) {
+                
+                            if (er) {
+                                return res.status(500).send({
+                                    status: "Error occurred in the operation",
+                                    message: err
+                                });
+                            }
+                            if (result.docs.length == 0) {
+                                return res.status(500).send({
+                                    status: "Error",
+                                    message: "No emergency found with this id"
+                                });
+                            } else {
+                                emergency={}
+                                emergency._id=req.body.emergencyID;
+                                emergency._rev=result.docs[0]._rev;
+                                emergency.intiatorID=result.docs[0].intiatorID;
+                                emergency.isActive=false;
+                                emergency_db.insert(emergency,
+                                    function (err, data) {
+                                        if (err) {
+                                            return res.status(500).send({
+                                                status: "Error occurred while updating the user information in the database",
+                                                message: err
+                                            });
+                                        } else {
+                                            res.send({
+                                                status: "Emergency cancelled successfully.",
+                                            });
+                
+                                        }
+                                    });
+                
+                
+                            }
+                
+                
+                        });
+    
+                    });
+    
+                }
+    
+
+            };
+
+
+        });
+
+    }

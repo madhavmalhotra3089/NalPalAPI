@@ -7,5 +7,7 @@ module.exports = (app) => {
     // Create a new Note
     app.post('/notificationservice/sendMessage', notificationService.sendMessage);
     app.post('/notificationservice/notifyEmergency', notificationService.sendEmergencyNotification);
-    app.post('/notificationservice/respongEmergency', notificationService.sendEmergencyResponse);
+    app.post('/notificationservice/respondEmergency', notificationService.sendEmergencyResponse);
+    app.post('/notificationservice/cancelEmergency', notificationService.cancelEmergency);
+    
 }
